@@ -1,46 +1,40 @@
-package test;
+package tests;
 
-import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import pages.RegistrationPage;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
-public class StudentRegistrationFormWithPageObjectsTest {
+public class StudentRegistrationFormWithPageObjectsTest extends TestBase {
 
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-        Configuration.holdBrowserOpen = true;
-    }
     @Test
     void successfulRegistration() {
-        new RegistrationPage().openPage();
-        new RegistrationPage().setFirstName("Vladislav");
-        new RegistrationPage().setLastName("Kadyrov");
-        new RegistrationPage().setUserEmail("vlad-kad00@mail.ru");
-        new RegistrationPage().setGenger("Male");
-        new RegistrationPage().setUserNumber("9992484959");
-
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("July");
-        $(".react-datepicker__year-select").selectOption("2000");
-        $(".react-datepicker__day--010").click();
-        $("#subjectsInput").setValue("Computer Science").pressEnter();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        $("#uploadPicture").uploadFromClasspath("img/kwoe.png");
-        $("#currentAddress").setValue("London, United Kingdom, SD9H 1JQ");
-        $("#state").click();
-        $("#stateCity-wrapper").$(byText("Uttar Pradesh")).click();
-        $("#city").click();
-        $("#city").$(byText("Lucknow")).click();
-        $("#submit").click();
-        $(".modal-dialog").should(appear);
-        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
+        registrationPage.openPage()
+                .setFirstName("Vladislav")
+                .setLastName("Kadyrov")
+                .setUserEmail("vlad-kad00@mail.ru")
+                .setGenger("Male")
+                .setUserNumber("9992484959")
+                .setBirthDate("10","July","2000")
+                .setSubjects("Computer Science")
+                .setHobbies("Sports")
+                .uploadPicture("img/kwoe.png")
+                .setCurrentAddress("SD9H 1JQ")
+                .selectState("Uttar Pradesh")
+                .selectCity("Lucknow")
+                .clickSubmitButton()
+                .registrationResultsModal()
+                .verifyResult("Student Name","Vladislav Kadyrov")
+                .verifyResult("Student Email","vlad-kad00@mail.ru")
+                .verifyResult("Gender","Male")
+                .verifyResult("Mobile","9992484959")
+                .verifyResult("Date of Birth","10 July,2000")
+                .verifyResult("Subjects","Computer Science")
+                .verifyResult("Hobbies","Sports")
+                .verifyResult("Picture","kwoe.png")
+                .verifyResult("Address","SD9H 1JQ")
+                .verifyResult("State and City","Uttar Pradesh Lucknow");
     }
 }
