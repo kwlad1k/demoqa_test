@@ -24,16 +24,15 @@ public class StudentRegistrationFormWithPageObjectsTest {
         new RegistrationPage().setFirstName("Vladislav");
         new RegistrationPage().setLastName("Kadyrov");
         new RegistrationPage().setUserEmail("vlad-kad00@mail.ru");
-
-        new RegistrationPage().setUserNumber("79992484958");
-        $("#genterWrapper").$(byText("Male")).click();
+        new RegistrationPage().setGenger("Male");
+        new RegistrationPage().setUserNumber("9992484959");
 
         $("#dateOfBirthInput").click();
         $(".react-datepicker__month-select").selectOption("July");
         $(".react-datepicker__year-select").selectOption("2000");
         $(".react-datepicker__day--010").click();
         $("#subjectsInput").setValue("Computer Science").pressEnter();
-        $("#subjects-label").$(byText("Sports"));
+        $("#hobbiesWrapper").$(byText("Sports")).click();
         $("#uploadPicture").uploadFromClasspath("img/kwoe.png");
         $("#currentAddress").setValue("London, United Kingdom, SD9H 1JQ");
         $("#state").click();
