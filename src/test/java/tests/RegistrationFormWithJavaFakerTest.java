@@ -2,34 +2,37 @@ package tests;
 
 import org.junit.jupiter.api.Test;
 
-public class StudentRegistrationFormWithPageObjectsTest extends TestBase {
+public class RegistrationFormWithJavaFakerTest extends TestBase {
 
     @Test
     void successfulRegistration() {
         registrationPage.openPage()
-                .setFirstName("Vladislav")
-                .setLastName("Kadyrov")
-                .setUserEmail("vlad-kad00@mail.ru")
-                .setGenger("Male")
-                .setUserNumber("9992484959")
-                .setBirthDate("10", "July", "2000")
-                .setSubjects("Computer Science")
-                .setHobbies("Sports")
+                .setFirstName(data.firstName)
+                .setLastName(data.lastName)
+                .setUserEmail(data.userEmail)
+                .setGenger(data.userGender)
+                .setUserNumber(data.userPhoneNumber)
+                .setBirthDate(
+                        data.dayMonthYear[0],
+                        data.dayMonthYear[1],
+                        data.dayMonthYear[2])
+                .setSubjects(data.subjects)
+                .setHobbies(data.hobbies)
                 .uploadPicture("img/kwoe.png")
-                .setCurrentAddress("SD9H 1JQ")
-                .selectState("Uttar Pradesh")
-                .selectCity("Lucknow")
+                .setCurrentAddress(data.address)
+                .selectState(data.state)
+                .selectCity(data.city)
                 .clickSubmitButton()
                 .registrationResultsModal()
-                .verifyResult("Student Name", "Vladislav Kadyrov")
-                .verifyResult("Student Email", "vlad-kad00@mail.ru")
-                .verifyResult("Gender", "Male")
-                .verifyResult("Mobile", "9992484959")
-                .verifyResult("Date of Birth", "10 July,2000")
-                .verifyResult("Subjects", "Computer Science")
-                .verifyResult("Hobbies", "Sports")
+                .verifyResult("Student Name", data.firstName + " " + data.lastName)
+                .verifyResult("Student Email", data.userEmail)
+                .verifyResult("Gender", data.userGender)
+                .verifyResult("Mobile", data.userPhoneNumber)
+                .verifyResult("Date of Birth", data.dateOfBirth)
+                .verifyResult("Subjects", data.subjects)
+                .verifyResult("Hobbies", data.hobbies)
                 .verifyResult("Picture", "kwoe.png")
-                .verifyResult("Address", "SD9H 1JQ")
-                .verifyResult("State and City", "Uttar Pradesh Lucknow");
+                .verifyResult("Address", data.address)
+                .verifyResult("State and City", data.state + " " + data.city);
     }
 }
